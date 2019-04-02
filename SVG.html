@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+function displaylocation()
+{
+	document.getElementById("demo").innerHTML = "Latitude: " + localStorage.getItem("Latitude") + 
+  "<br>Longitude: " + localStorage.getItem("Longitude");
+}
+function showPosition(position) {
+	localStorage.setItem("Latitude",position.coords.latitude);
+	localStorage.setItem("Longitude",position.coords.longitude);
+  }
+ 
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+</script>
+</head>
+<body>
+
+<button onclick="getLocation()">Save Location to Webstorage</button>
+<button onclick="displaylocation()">Extract Location from Webstorage</button>
+<p id="demo"></p>
+
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+<svg width="200" height="200">
+  <circle cx="100" cy="100" r="70" stroke="black" stroke-width="4" fill="yellow" />
+</svg>
+</div>
+
+<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+<svg width="200" height="200">
+  <circle cx="100" cy="100" r="70" stroke="black" stroke-width="4" fill="green" />
+</svg>
+</div>
+
+<img id="drag1" src="img_logo1.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+</body>
+</html>
